@@ -1,0 +1,15 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color:#b4dcfc;
+}
+#mapa{
+    user-select: none;
+    position: absolute;
+    width: 1024px;
+}
+#salida{
+    position: absolute;
+    top: 600px;
+    color:white;
+}
