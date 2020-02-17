@@ -13,3 +13,7 @@ body{
     top: 600px;
     color:white;
 }
+#canvas{
+    position: absolute;
+    left: 0px;
+}
