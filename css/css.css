@@ -2,6 +2,7 @@ body{
     margin: 0px;
     padding: 0px;
     background-color:#b4dcfc;
+    cursor: crosshair;
 }
 #mapa{
     user-select: none;
@@ -11,7 +12,7 @@ body{
 #salida{
     position: absolute;
     top: 600px;
-    color:white;
+    color:black;
 }
 #canvas{
     position: absolute;

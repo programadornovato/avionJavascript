@@ -12,3 +12,17 @@ window.onload=function (event) {
     document.body.appendChild(canvas);
     canvas.setAttribute('id','canvas');
 }
+document.addEventListener('mousemove',function (event) {
+    var datosDelPixel=canvas.getContext('2d').getImageData(event.offsetX,event.offsetY,1,1).data;
+    document.getElementById('salida').innerHTML=`ROJO=${datosDelPixel[0]} VERDE=${datosDelPixel[1]} AZUL=${datosDelPixel[2]} ALFA=${datosDelPixel[3]} `
+});
+document.addEventListener('click',function (event) {
+    llenarArea(event.offsetX,event.offsetY);
+});
+function llenarArea(x,y){
+    var posx=x;
+    var posy=y;
+    var ctx=canvas.getContext('2d');
+    ctx.fillStyle="rgb(255, 0, 0)";
+    ctx.fillRect(posx,posy,6,6);
+}
