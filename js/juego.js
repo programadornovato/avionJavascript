@@ -15,6 +15,22 @@ window.onload = function (event) {
     document.body.appendChild(canvas);
     canvas.setAttribute('id', 'canvas');
     buscaPais();
+    do{
+        var xy=buscaPais();
+        if(xy==null){
+            location.reload();
+            break;
+        }else{
+            llenarUnPais(xy['posAleatoriaMapaX'],xy['posAleatoriaMapaY']);
+        }
+    }
+    while(contador<800);
+}
+function llenarUnPais(x,y) {
+    contador=0;
+    llenarArea(x,y,1);
+    llenarArea(x,y,-1);
+    llenarTodo();
 }
 function buscaPais(){
     var con=0;
@@ -22,29 +38,15 @@ function buscaPais(){
         var posAleatoriaMapaX=numeroAleatorio(anchoMapa);
         var posAleatoriaMapaY=numeroAleatorio(altoMapa);
         var datosDelPixel=canvas.getContext('2d').getImageData(posAleatoriaMapaX,posAleatoriaMapaY,1,1).data;
-        var ctx=canvas.getContext('2d');
-        ctx.fillStyle='rgb(0, 102, 0)';
-        ctx.fillRect(posAleatoriaMapaX,posAleatoriaMapaY,8,8);
+        //var ctx=canvas.getContext('2d');
+        //ctx.fillStyle='rgb(0, 102, 0)';
+        //ctx.fillRect(posAleatoriaMapaX,posAleatoriaMapaY,8,8);
         con++;
         if(con>50)return null;
     }while(datosDelPixel[0]!=255 && datosDelPixel[1]!=255 && datosDelPixel[2]!=255);
     return {posAleatoriaMapaX,posAleatoriaMapaY};
 }
-document.addEventListener('mousemove', function (event) {
-    var datosDelPixel = canvas.getContext('2d').getImageData(event.offsetX, event.offsetY, 1, 1).data;
-    document.getElementById('salida').innerHTML = `ROJO=${datosDelPixel[0]} VERDE=${datosDelPixel[1]} AZUL=${datosDelPixel[2]} ALFA=${datosDelPixel[3]} `
-});
-document.addEventListener('click', function (event) {
-    llenarArea(event.offsetX, event.offsetY,1);
-    llenarArea(event.offsetX, event.offsetY,-1);
-    llenarTodo();
-});
 function llenarArea(x, y,haciaArribaAbajo) {
-    /*
-    var ctx=canvas.getContext('2d');
-    ctx.fillStyle="rgb(255, 0, 0)";
-    ctx.fillRect(posx,posy,6,6);
-    */
     var posx = x;
     var posy = y;
     var datosDelPixel = canvas.getContext('2d').getImageData(posx, posy, 1, 1).data;
@@ -53,18 +55,12 @@ function llenarArea(x, y,haciaArribaAbajo) {
     while (datosDelPixel[0] == 255 && datosDelPixel[1] == 255 && datosDelPixel[2] == 255) {
         while (datosDelPixel[0] == 255 && datosDelPixel[1] == 255 && datosDelPixel[2] == 255) {
             datosDelPixel = canvas.getContext('2d').getImageData(posx, posy, 1, 1).data;
-            /*
-            var ctx = canvas.getContext('2d');
-            ctx.fillStyle = "rgb(255, 0, 0)";
-            ctx.fillRect(posx, posy, 1, 1);
-            */
             posx = posx + haciaDerechaIzquierda;
             matriz[contador]={posx,posy};
             contador++;
         }
         posy=posy+haciaArribaAbajo;
         haciaDerechaIzquierda=haciaDerechaIzquierda*-1;
-        //posx=posx+(perdida*haciaDerechaIzquierda);
         for (let i = 0; i < perdida; i++) {
             posx=posx+haciaDerechaIzquierda;
             matriz[contador]={posx,posy};
