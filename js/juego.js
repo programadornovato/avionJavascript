@@ -14,6 +14,21 @@ window.onload = function (event) {
     canvas.getContext('2d').drawImage(mapa, 0, 0, anchoMapa, this.altoMapa);
     document.body.appendChild(canvas);
     canvas.setAttribute('id', 'canvas');
+    buscaPais();
+}
+function buscaPais(){
+    var con=0;
+    do{
+        var posAleatoriaMapaX=numeroAleatorio(anchoMapa);
+        var posAleatoriaMapaY=numeroAleatorio(altoMapa);
+        var datosDelPixel=canvas.getContext('2d').getImageData(posAleatoriaMapaX,posAleatoriaMapaY,1,1).data;
+        var ctx=canvas.getContext('2d');
+        ctx.fillStyle='rgb(0, 102, 0)';
+        ctx.fillRect(posAleatoriaMapaX,posAleatoriaMapaY,8,8);
+        con++;
+        if(con>50)return null;
+    }while(datosDelPixel[0]!=255 && datosDelPixel[1]!=255 && datosDelPixel[2]!=255);
+    return {posAleatoriaMapaX,posAleatoriaMapaY};
 }
 document.addEventListener('mousemove', function (event) {
     var datosDelPixel = canvas.getContext('2d').getImageData(event.offsetX, event.offsetY, 1, 1).data;
@@ -66,4 +81,7 @@ function llenarTodo() {
             ctx.fillRect(matriz[i]['posx'],matriz[i]['posy'],1,1);
         }
     }
+}
+function numeroAleatorio(limiteMax){
+    return Math.floor(Math.random()*limiteMax);
 }
