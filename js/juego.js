@@ -9,7 +9,7 @@ canvas.height = altoMapa;
 
 var matriz=[];
 var contador=0;
-var verPais=false;
+var verPais=true;
 window.onload = function (event) {
     canvas.getContext('2d').drawImage(mapa, 0, 0, anchoMapa, this.altoMapa);
     document.body.appendChild(canvas);
@@ -84,6 +84,8 @@ function numeroAleatorio(limiteMax){
 
 canvas.addEventListener('click',function (event) {
     var encontrado=false;
+    var avion=document.getElementById('avion');
+    var no=document.getElementById('no');
     for (let i = 0; i < contador; i++) {
         if(
             (matriz[i]['posx']==event.offsetX && matriz[i]['posy']==event.offsetY) ||
@@ -95,12 +97,26 @@ canvas.addEventListener('click',function (event) {
         }
     }
     if(encontrado==true){
+        avion.style.display="inline";
+        mueveElemento(event.offsetX,event.offsetY,avion);
+        /*
         var respuesta=confirm("Felicidades has vendido el avion presidencia!!!¿Desear jugar otra partida?");
         if(respuesta==true){
             location.reload();
         }
+        */
     }
     else{
-        console.log('Nop aqui no queremos un avion tan lujosos');
+        //console.log('Nop aqui no queremos un avion tan lujosos');
+        no.style.display="inline";
+        mueveElemento(event.offsetX,event.offsetY,no);
+
     }
-})
+});
+function mueveElemento(x,y,elemento) {
+    var contenedor=document.getElementsByTagName('body')[0];
+    var xPosicion=x-contenedor.getBoundingClientRect().left-(elemento.clientWidth/2);
+    var yPosicion=y-contenedor.getBoundingClientRect().top-(elemento.clientHeight/2);
+    elemento.style.left=xPosicion+"px";
+    elemento.style.top=yPosicion+"px";
+}

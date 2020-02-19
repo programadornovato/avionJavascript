@@ -18,3 +18,21 @@ body{
     position: absolute;
     left: 0px;
 }
+#avion{
+    position: absolute;
+    top: 500px;
+    left: 20px;
+    z-index: 100;
+    width: 70px;
+    display: none;
+    transition: left 2s cubic-bezier(0.42, -0.3, 0.78, 1.25), top 2s cubic-bezier(0.42, -0.3, 0.78, 1.25);
+}
+#no{
+    position: absolute;
+    top: 500px;
+    left: 20px;
+    z-index: 100;
+    width: 30px;
+    display: none;
+    transition: left 2s cubic-bezier(0.42, -0.3, 0.78, 1.25), top 2s cubic-bezier(0.42, -0.3, 0.78, 1.25);
+}
