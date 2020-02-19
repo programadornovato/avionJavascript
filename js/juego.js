@@ -9,7 +9,7 @@ canvas.height = altoMapa;
 
 var matriz=[];
 var contador=0;
-var verPais=true;
+var verPais=false;
 window.onload = function (event) {
     canvas.getContext('2d').drawImage(mapa, 0, 0, anchoMapa, this.altoMapa);
     document.body.appendChild(canvas);
@@ -81,3 +81,26 @@ function llenarTodo() {
 function numeroAleatorio(limiteMax){
     return Math.floor(Math.random()*limiteMax);
 }
+
+canvas.addEventListener('click',function (event) {
+    var encontrado=false;
+    for (let i = 0; i < contador; i++) {
+        if(
+            (matriz[i]['posx']==event.offsetX && matriz[i]['posy']==event.offsetY) ||
+            (matriz[i]['posx']==event.offsetX && matriz[i]['posy']==event.offsetY+1) ||
+            (matriz[i]['posx']==event.offsetX && matriz[i]['posy']==event.offsetY-1)
+        ){
+            encontrado=true;
+            break;
+        }
+    }
+    if(encontrado==true){
+        var respuesta=confirm("Felicidades has vendido el avion presidencia!!!¿Desear jugar otra partida?");
+        if(respuesta==true){
+            location.reload();
+        }
+    }
+    else{
+        console.log('Nop aqui no queremos un avion tan lujosos');
+    }
+})
