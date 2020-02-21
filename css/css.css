@@ -36,3 +36,11 @@ body{
     display: none;
     transition: left 2s cubic-bezier(0.42, -0.3, 0.78, 1.25), top 2s cubic-bezier(0.42, -0.3, 0.78, 1.25);
 }
+#fuego{
+    position: absolute;
+    top: 500px;
+    left: 20px;
+    z-index: 200;
+    width: 600px;
+    display: none;
+}

@@ -85,6 +85,8 @@ function numeroAleatorio(limiteMax){
 canvas.addEventListener('click',function (event) {
     var encontrado=false;
     var avion=document.getElementById('avion');
+    var fuego=document.getElementById('fuego');
+
     var no=document.getElementById('no');
     for (let i = 0; i < contador; i++) {
         if(
@@ -98,16 +100,24 @@ canvas.addEventListener('click',function (event) {
     }
     if(encontrado==true){
         avion.style.display="inline";
+        fuego.style.display="inline";
+
         mueveElemento(event.offsetX,event.offsetY,avion);
-        /*
-        var respuesta=confirm("Felicidades has vendido el avion presidencia!!!¿Desear jugar otra partida?");
-        if(respuesta==true){
-            location.reload();
-        }
-        */
+        mueveElemento(event.offsetX,event.offsetY,fuego);
+        var jet=new Audio('audio/jet.mp3');
+        jet.play();
+        var tiempoEspera=setInterval(function(){
+            var respuesta=confirm("Felicidades has vendido el avion presidencia!!!¿Desear jugar otra partida?");
+            if(respuesta==true){
+                location.reload();
+            }
+            clearInterval(tiempoEspera);
+        },3000);
     }
     else{
         //console.log('Nop aqui no queremos un avion tan lujosos');
+        var pierde=new Audio('audio/pierde.mp3');
+        pierde.play();
         no.style.display="inline";
         mueveElemento(event.offsetX,event.offsetY,no);
 
