@@ -9,11 +9,19 @@ canvas.height = altoMapa;
 
 var matriz=[];
 var contador=0;
-var verPais=true;
+var verPais=false;
+
+var numFallos=0;
+var limiteFallos=5;
+var oportunidadesRestantes=limiteFallos-numFallos;
 window.onload = function (event) {
-    canvas.getContext('2d').drawImage(mapa, 0, 0, anchoMapa, this.altoMapa);
+    var ctx=canvas.getContext('2d');
+    ctx.drawImage(mapa, 0, 0, anchoMapa, this.altoMapa);
     document.body.appendChild(canvas);
     canvas.setAttribute('id', 'canvas');
+    ctx.fillStyle="red";
+    ctx.font="20px Arial";
+    ctx.fillText(`Oportunidades ${oportunidadesRestantes}`,10,500);
     buscaPais();
     do{
         var xy=buscaPais();
@@ -30,7 +38,9 @@ function llenarUnPais(x,y) {
     contador=0;
     llenarArea(x,y,1);
     llenarArea(x,y,-1);
-    llenarTodo();
+    if(verPais==true){
+        llenarTodo();
+    }
 }
 function buscaPais(){
     var con=0;
@@ -71,18 +81,18 @@ function llenarArea(x, y,haciaArribaAbajo) {
 }
 function llenarTodo() {
     for (let i = 0; i < contador; i++) {
-        if(verPais==true){
+        
             var ctx = canvas.getContext('2d');
             ctx.fillStyle = "rgb(0, 0, 204)";
             ctx.fillRect(matriz[i]['posx'],matriz[i]['posy'],1,1);
-        }
     }
 }
 function numeroAleatorio(limiteMax){
     return Math.floor(Math.random()*limiteMax);
 }
 
-canvas.addEventListener('click',function (event) {
+canvas.addEventListener('click',clickCanvas);
+function clickCanvas (event) {
     var encontrado=false;
     var avion=document.getElementById('avion');
     var fuego=document.getElementById('fuego');
@@ -120,9 +130,32 @@ canvas.addEventListener('click',function (event) {
         pierde.play();
         no.style.display="inline";
         mueveElemento(event.offsetX,event.offsetY,no);
+        var ctx=canvas.getContext('2d');
+        ctx.fillStyle="blue";
+        ctx.clearRect(10,480,230,40);
+        ctx.fillStyle="red";
+        ctx.font="20px Arial";
+        numFallos++;
+        oportunidadesRestantes=limiteFallos-numFallos;
+        
+        ctx.fillText(`Oportunidades ${oportunidadesRestantes}`,10,500);
+        if(oportunidadesRestantes<0){
+            document.getElementById('llora').style.display='inline';
+            ctx.clearRect(10,480,230,40);
+            ctx.fillText(`Oportunidades 0`,10,500);
+            canvas.removeEventListener('click',clickCanvas);
+            llenarTodo();
+            var tiempoEspera=setInterval(function(){
+                var respuesta=confirm("Lo siento no pudiste vender el avion presidencia!!!¿Desear jugar otra partida?");
+                if(respuesta==true){
+                    location.reload();
+                }
+                clearInterval(tiempoEspera);
+            },2000);
 
+        }
     }
-});
+}
 function mueveElemento(x,y,elemento) {
     var contenedor=document.getElementsByTagName('body')[0];
     var xPosicion=x-contenedor.getBoundingClientRect().left-(elemento.clientWidth/2);
