@@ -9,11 +9,6 @@ body{
     position: absolute;
     width: 1024px;
 }
-#salida{
-    position: absolute;
-    top: 600px;
-    color:black;
-}
 #canvas{
     position: absolute;
     left: 0px;
@@ -46,7 +41,7 @@ body{
 }
 #llora{
     position: absolute;
-    top: 500px;
+    top: 520px;
     left: 20px;
     z-index: 200;
     width: 100px;

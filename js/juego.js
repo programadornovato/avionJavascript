@@ -13,6 +13,7 @@ var verPais=false;
 
 var numFallos=0;
 var limiteFallos=5;
+var xy=null;
 var oportunidadesRestantes=limiteFallos-numFallos;
 window.onload = function (event) {
     var ctx=canvas.getContext('2d');
@@ -24,7 +25,7 @@ window.onload = function (event) {
     ctx.fillText(`Oportunidades ${oportunidadesRestantes}`,10,500);
     buscaPais();
     do{
-        var xy=buscaPais();
+        xy=buscaPais();
         if(xy==null){
             location.reload();
             break;
@@ -132,17 +133,20 @@ function clickCanvas (event) {
         mueveElemento(event.offsetX,event.offsetY,no);
         var ctx=canvas.getContext('2d');
         ctx.fillStyle="blue";
-        ctx.clearRect(10,480,230,40);
+        ctx.clearRect(10,480,230,50);
         ctx.fillStyle="red";
         ctx.font="20px Arial";
         numFallos++;
         oportunidadesRestantes=limiteFallos-numFallos;
-        
         ctx.fillText(`Oportunidades ${oportunidadesRestantes}`,10,500);
+        var distancia=distanciaEntrePuntos(event,xy);
+        var mensaje=muestraDistancia(distancia);
+        ctx.fillText(mensaje,10,520);
         if(oportunidadesRestantes<0){
             document.getElementById('llora').style.display='inline';
-            ctx.clearRect(10,480,230,40);
+            ctx.clearRect(10,480,230,50);
             ctx.fillText(`Oportunidades 0`,10,500);
+            ctx.fillText(mensaje,10,520);
             canvas.removeEventListener('click',clickCanvas);
             llenarTodo();
             var tiempoEspera=setInterval(function(){
@@ -162,4 +166,35 @@ function mueveElemento(x,y,elemento) {
     var yPosicion=y-contenedor.getBoundingClientRect().top-(elemento.clientHeight/2);
     elemento.style.left=xPosicion+"px";
     elemento.style.top=yPosicion+"px";
+}
+
+function distanciaEntrePuntos(event,xy){
+    var difX=event.offsetX-xy['posAleatoriaMapaX'];
+    var difY=event.offsetY-xy['posAleatoriaMapaY'];
+    var distancia=Math.sqrt(Math.pow(difX,2)+Math.pow(difY,2));
+    return distancia;
+}
+function muestraDistancia(distancia){
+    if(distancia<100){
+        return "Casi te quemas";
+    }
+    else if(distancia<200){
+        return "Muy caliente";
+    }
+    else if(distancia<300){
+        return "Caliente";
+    }
+    else if(distancia<400){
+        return "Templado";
+    }
+    else if(distancia<600){
+        return "Frio";
+    }
+    else if(distancia<800){
+        return "Muy Frio";
+    }
+    else{
+        return "congelado";
+    }
+
 }
